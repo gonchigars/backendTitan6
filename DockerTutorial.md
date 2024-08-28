@@ -39,19 +39,20 @@ This tutorial will guide you through running a base Docker image (`openjdk`) and
 
 #### **Part 2: Adding Your Code Using a Dockerfile**
 
-**Step 1: Create a Dockerfile**
-- **Explanation:** A Dockerfile is a script that automates the process of building a Docker image. It specifies the base image, copies your application files, and defines how to run your application.
 
-1. **Navigate to Your Project Directory:**
-   - Open your terminal and navigate to `C:\Users\gonch\Downloads\demo\demo`.
+  ```
 
-2. **Create a Dockerfile:**
-   - In the root of your project (`C:\Users\gonch\Downloads\demo\demo`), create a file named `Dockerfile`.
+**Step 3: Build the Docker Image**
+- Now that you have a Dockerfile, build your Docker image using the following command:
+  ```bash
+  docker build -t movie-api-app .
+  ```
+- **Explanation:**
+  - `-t movie-api-app`: Tags the image with the name `movie-api-app`.
+  - `.`: Specifies the current directory as the context for the Docker build.
 
-**Step 2: Write the Dockerfile**
-- Add the following content to your Dockerfile:
-  ```dockerfile
-  # Use the OpenJDK 17 base image
+**Step 4: Run the Container with Your Application**
+- After building the image, run i# Use the OpenJDK 17 base image
 FROM openjdk:17-jdk-slim AS build
 
 # Set the working directory in the container
@@ -66,6 +67,9 @@ COPY src ./src
 
 # Ensure the Maven wrapper is executable
 RUN chmod +x ./mvnw
+
+RUN apt-get update && apt-get install -y dos2unix
+RUN dos2unix ./mvnw
 
 # Package the application
 RUN ./mvnw package
@@ -84,20 +88,8 @@ EXPOSE 8080
 
 # Run the jar file
 CMD ["java", "-jar", "app.jar"]
+```
 
-  ```
-
-**Step 3: Build the Docker Image**
-- Now that you have a Dockerfile, build your Docker image using the following command:
-  ```bash
-  docker build -t movie-api-app .
-  ```
-- **Explanation:**
-  - `-t movie-api-app`: Tags the image with the name `movie-api-app`.
-  - `.`: Specifies the current directory as the context for the Docker build.
-
-**Step 4: Run the Container with Your Application**
-- After building the image, run it using the following command:
   ```bash
   docker run -p 8080:8080 movie-api-app
   ```
@@ -119,9 +111,91 @@ CMD ["java", "-jar", "app.jar"]
 2. **Created a Dockerfile** to define how to package and run your Spring Boot application.
 3. **Built and ran a Docker container** from that image, successfully deploying your application.
 
-This tutorial helps you understand how to leverage Docker for a Java application by starting with a base image and layering your application code on top.
+### Push images to dockerhub (Container Registry)
+Here’s a step-by-step tutorial tailored to your username `topkuber` on how to build, tag, push, pull, and run a Docker image.
+
+### Step 1: Build the Docker Image
+
+1. **Navigate to your project directory** where your `Dockerfile` is located:
+   ```bash
+   cd C:\Users\gonch\Downloads\demo\demo
+   ```
+
+2. **Build the Docker image**:
+   ```bash
+   docker build -t topkuber/movie-api:latest .
+   ```
+   - `-t topkuber/movie-api:latest` tags the image with your Docker Hub username (`topkuber`), the repository name (`movie-api`), and the tag (`latest`).
+   - `.` specifies that the Dockerfile is in the current directory.
+
+### Step 2: Tag the Docker Image (Optional)
+
+If you want to tag the image with a different name or version, you can do this using the `docker tag` command. This step is optional if you’re satisfied with the tag from the build command.
+
+Example:
+```bash
+docker tag topkuber/movie-api:latest topkuber/movie-api-app:v1.0
+```
+- This creates a new tag `topkuber/movie-api-app:v1.0` for the same image.
+
+### Step 3: Push the Docker Image to Docker Hub
+
+1. **Login to Docker Hub**:
+   ```bash
+   docker login -u topkuber
+   ```
+   - Enter your Docker Hub password or personal access token when prompted.
+
+2. **Push the Docker image** to your Docker Hub repository:
+   ```bash
+   docker push topkuber/movie-api:latest
+   ```
+   - This command uploads the image tagged as `movie-api:latest` to your Docker Hub account.
+
+   If you created a new tag, push that one as well:
+   ```bash
+   docker push topkuber/movie-api-app:v1.0
+   ```
+
+### Step 4: Pull the Docker Image from Docker Hub
+
+1. **Pull the image** from Docker Hub to verify it was successfully uploaded:
+   ```bash
+   docker pull topkuber/movie-api:latest
+   ```
+   - This downloads the image from Docker Hub to your local machine.
+
+   If you tagged with a different name or version, pull that specific tag:
+   ```bash
+   docker pull topkuber/movie-api-app:v1.0
+   ```
+
+### Step 5: Run the Docker Image
+
+1. **Run the Docker container** from the pulled image:
+   ```bash
+   docker run -p 8080:8080 topkuber/movie-api:latest
+   ```
+   - This command runs a container from your image and maps port `8080` on your host to port `8080` in the container.
+   - Your Spring Boot application should now be accessible at `http://localhost:8080`.
+
+   If you tagged with a different name or version, run the container using that tag:
+   ```bash
+   docker run -p 8080:8080 topkuber/movie-api-app:v1.0
+   ```
+
+### Summary:
+- **Build**: `docker build -t topkuber/movie-api:latest .`
+- **Tag (Optional)**: `docker tag topkuber/movie-api:latest topkuber/movie-api-app:v1.0`
+- **Push**: `docker push topkuber/movie-api:latest`
+- **Pull**: `docker pull topkuber/movie-api:latest`
+- **Run**: `docker run -p 8080:8080 topkuber/movie-api:latest`
+
+Following these steps will allow you to create, manage, and deploy your Docker images to Docker Hub with ease.
 
 ----------------------------
+----------------------------
+
 
 Here are some exercises designed to reinforce the concepts learned in the tutorial:
 

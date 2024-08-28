@@ -1,3 +1,6 @@
+Here's the edited Markdown file with the Dockerfile in a copy-paste format, along with the steps to build, tag, push, pull, and run the Docker image using your username `topkuber`.
+
+```md
 ### Docker Tutorial: Running a Base Image and Adding Code
 
 This tutorial will guide you through running a base Docker image (`openjdk`) and then adding your Java code using a Dockerfile.
@@ -39,20 +42,8 @@ This tutorial will guide you through running a base Docker image (`openjdk`) and
 
 #### **Part 2: Adding Your Code Using a Dockerfile**
 
-
-  ```
-
-**Step 3: Build the Docker Image**
-- Now that you have a Dockerfile, build your Docker image using the following command:
-  ```bash
-  docker build -t movie-api-app .
-  ```
-- **Explanation:**
-  - `-t movie-api-app`: Tags the image with the name `movie-api-app`.
-  - `.`: Specifies the current directory as the context for the Docker build.
-
-**Step 4: Run the Container with Your Application**
-- After building the image, run i# Use the OpenJDK 17 base image
+```dockerfile
+# Use the OpenJDK 17 base image
 FROM openjdk:17-jdk-slim AS build
 
 # Set the working directory in the container
@@ -90,6 +81,17 @@ EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
 ```
 
+**Step 3: Build the Docker Image**
+- Now that you have a Dockerfile, build your Docker image using the following command:
+  ```bash
+  docker build -t movie-api-app .
+  ```
+- **Explanation:**
+  - `-t movie-api-app`: Tags the image with the name `movie-api-app`.
+  - `.`: Specifies the current directory as the context for the Docker build.
+
+**Step 4: Run the Container with Your Application**
+- After building the image, run it with the following command:
   ```bash
   docker run -p 8080:8080 movie-api-app
   ```
@@ -105,13 +107,8 @@ CMD ["java", "-jar", "app.jar"]
 
 ---
 
-### Recap
+### **Pushing Images to Docker Hub (Container Registry)**
 
-1. **Pulled and ran the OpenJDK base image** to understand the environment your application will run in.
-2. **Created a Dockerfile** to define how to package and run your Spring Boot application.
-3. **Built and ran a Docker container** from that image, successfully deploying your application.
-
-### Push images to dockerhub (Container Registry)
 Here’s a step-by-step tutorial tailored to your username `topkuber` on how to build, tag, push, pull, and run a Docker image.
 
 ### Step 1: Build the Docker Image
@@ -184,7 +181,7 @@ docker tag topkuber/movie-api:latest topkuber/movie-api-app:v1.0
    docker run -p 8080:8080 topkuber/movie-api-app:v1.0
    ```
 
-### Summary:
+### **Summary:**
 - **Build**: `docker build -t topkuber/movie-api:latest .`
 - **Tag (Optional)**: `docker tag topkuber/movie-api:latest topkuber/movie-api-app:v1.0`
 - **Push**: `docker push topkuber/movie-api:latest`
@@ -193,9 +190,9 @@ docker tag topkuber/movie-api:latest topkuber/movie-api-app:v1.0
 
 Following these steps will allow you to create, manage, and deploy your Docker images to Docker Hub with ease.
 
-----------------------------
-----------------------------
+---
 
+### Exercises
 
 Here are some exercises designed to reinforce the concepts learned in the tutorial:
 
@@ -230,7 +227,9 @@ Here are some exercises designed to reinforce the concepts learned in the tutori
    ```dockerfile
    ENV APP_NAME=MovieAPI
    ```
-2. Modify the `CMD` instruction to print the `APP_NAME` environment variable before running the application.
+2. Modify the `CMD` instruction to print the `APP_NAME` environment variable before running
+
+ the application.
    ```dockerfile
    CMD echo "Starting $APP_NAME..." && java -jar target/demo-0.0.1-SNAPSHOT.jar
    ```
@@ -322,3 +321,6 @@ Here are some exercises designed to reinforce the concepts learned in the tutori
 ### **Summary**
 
 These exercises are designed to solidify your understanding of Docker by having you explore the base image, customize Dockerfiles, work with volumes, debug containers, and optimize images using multi-stage builds. By completing these exercises, you should gain a deeper, more practical understanding of Docker and its capabilities.
+```
+
+This edited Markdown file now includes clear instructions and formatted Docker commands, including the Dockerfile that can be directly copy-pasted for use. The additional exercises provide a practical approach to deepening understanding of Docker concepts.

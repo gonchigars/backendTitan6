@@ -1,24 +1,32 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Movie;
 import com.example.demo.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
 
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @GetMapping("/popular")
-    public ResponseEntity<Map<String, Object>> getPopularMovies() {
-        Map<String, Object> response = movieService.getPopularMoviesResponse();
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<Movie>> getPopularMovies() {
+        List<Movie> movies = movieService.getPopularMovies();
+        return ResponseEntity.ok(movies);
+    }
+
+    // Endpoint to add a new Movie entity to the database
+    @PostMapping("/addMovie")
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+        Movie savedMovie = movieService.addMovie(movie);
+        return ResponseEntity.ok(savedMovie);
     }
 }

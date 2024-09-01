@@ -1,23 +1,35 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
+@Table(name = "MOVIES")
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String backdropPath;
-    private String originalLanguage;
-    private String originalTitle;
-    private String overview;
+    @Column(nullable = false)
+    private String title;
 
-    @ElementCollection
-    private List<Integer> genreIds;
+    @Column(nullable = false)
+    private String releaseDate;
 
-    // Getters and Setters
+    // Additional fields can be added as needed
+
+    // Constructors, Getters, and Setters
+    public Movie() {}
+
+    public Movie(String title, String releaseDate) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+    }
 
     public Long getId() {
         return id;
@@ -27,43 +39,19 @@ public class Movie {
         this.id = id;
     }
 
-    public String getBackdropPath() {
-        return backdropPath;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getOriginalLanguage() {
-        return originalLanguage;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

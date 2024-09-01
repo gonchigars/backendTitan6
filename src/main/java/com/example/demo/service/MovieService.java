@@ -5,23 +5,25 @@ import com.example.demo.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MovieService {
-    @Autowired
-    private MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    private final MovieRepository movieRepository;
+
+    @Autowired
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
-    public Map<String, Object> getPopularMoviesResponse() {
-        List<Movie> movies = getAllMovies();
-        Map<String, Object> response = new HashMap<>();
-        response.put("results", movies);
-        return response;
+    // Function to add a new Movie entity to the database
+    public Movie addMovie(Movie movie) {
+        return movieRepository.save(movie);
+    }
+
+    // Function to retrieve all Movie entities from the database
+    public List<Movie> getPopularMovies() {
+        return movieRepository.findAll();
     }
 }
